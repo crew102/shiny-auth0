@@ -9,7 +9,7 @@ block content
 
   script.
     var auth0 = new window.auth0.WebAuth({
-      clientID: '#{env.AUTH0_CLIENT_ID}',
+      clientID: '#{AUTH0_CLIENT_ID}',
       domain: '#{env.AUTH0_DOMAIN}',
       scope: "openid profile", // Learn about scopes: https://auth0.com/docs/scopes
       responseType: "code",

@@ -1,9 +1,9 @@
 var express = require('express');
 var passport = require('passport');
 var httpProxy = require('http-proxy');
-var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn()
+var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn();
 var router = express.Router();
-
+var fs = require('fs');
 var env = process.env;
 
 // This adds support for the current way to sso
@@ -11,7 +11,7 @@ var authenticateWithDefaultPrompt = passport.authenticate('auth0', {});
 var authenticateWithPromptNone = passport.authenticate('auth0', {
   prompt: 'none'
 });
-
+var AUTH0_CLIENT_ID = fs.readFileSync('/run/secrets/auth0-client-id', 'utf8');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -34,7 +34,7 @@ router.get('/logout', function(req, res){
 
   if (env.LOGOUT_AUTH0 === 'true') {
     logoutUrl = 'https://' + env.AUTH0_DOMAIN + '/v2/logout?returnTo=' 
-      + env.LOGOUT_URL + '&client_id=' + env.AUTH0_CLIENT_ID
+      + env.LOGOUT_URL + '&client_id=' + AUTH0_CLIENT_ID
       + (env.LOGOUT_FEDERATED === 'true'? '&federated' : '');
   }
   
